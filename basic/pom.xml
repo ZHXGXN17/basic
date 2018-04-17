@@ -3,4 +3,50 @@
   <groupId>com.basic</groupId>
   <artifactId>basic</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.activiti</groupId>
+  		<artifactId>activiti-spring</artifactId>
+  		<version>5.21.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.activiti</groupId>
+  		<artifactId>activiti-bpmn-model</artifactId>
+  		<version>5.21.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.activiti</groupId>
+  		<artifactId>activiti-bpmn-converter</artifactId>
+  		<version>5.21.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.activiti</groupId>
+  		<artifactId>activiti-process-validation</artifactId>
+  		<version>5.21.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.activiti</groupId>
+  		<artifactId>activiti-engine</artifactId>
+  		<version>5.21.0</version>
+  	</dependency>
+  </dependencies>
+  
+  
+  
+  <repositories>
+        <!-- 阿里云镜像 -->
+        <repository>
+            <id>nexus</id>
+            <name>Team Nexus Repository</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+        </repository> 
+        
+        <!-- mvn国外镜像 -->
+        <repository>
+            <id>mvn</id>
+            <name>mvn-repositiory</name>
+            <url>http://mvnrepository.com/artifact/</url>
+        </repository>
+    </repositories>
+  
 </project>
