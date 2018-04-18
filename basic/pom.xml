@@ -4,11 +4,11 @@
   <artifactId>basic</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <dependencies>
-  	<dependency>
+  	<!-- <dependency>
   		<groupId>org.activiti</groupId>
   		<artifactId>activiti-spring</artifactId>
   		<version>5.21.0</version>
-  	</dependency>
+  	</dependency> -->
   	<dependency>
   		<groupId>org.activiti</groupId>
   		<artifactId>activiti-bpmn-model</artifactId>
