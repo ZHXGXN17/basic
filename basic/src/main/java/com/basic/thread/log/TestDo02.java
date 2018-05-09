@@ -38,6 +38,17 @@ public class TestDo02 {
 				}
 			}).start();
 		}
+		
+		System.out.println("begin:" + (System.currentTimeMillis() / 1000));
+		for(int i = 0;i < 10;i++) {
+			String input = i + "";
+			try {
+				// 将制定元素添加到此队列
+				queue.put(input);
+			}catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }
