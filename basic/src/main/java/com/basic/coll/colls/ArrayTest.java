@@ -1,5 +1,6 @@
 package com.basic.coll.colls;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,6 +27,20 @@ public class ArrayTest {
         System.out.println("排序前:" + Arrays.toString(a));
         Arrays.sort(a);
         System.out.println("排序后:" + Arrays.toString(a));
+        
+        System.out.println("4、集合转数组");
+        System.out.println("-------------------");
+        
+        // toArray()集合转数组
+        ArrayList<String> a1 = new ArrayList<String>();
+        a1.add("java");
+        a1.add("in");
+        a1.add("hello");
+        
+        System.out.println("a1:" + a1);
+        
+        String[] strs = a1.toArray(new String[a1.size()]);
+        System.out.println(Arrays.toString(strs));
 	}
 
 }
