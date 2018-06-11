@@ -44,9 +44,9 @@ public class FileInputStreamDemo01 {
 		
 		// 最终版代码
 		int by = 0;
-		while((by = fis.read()) != -1) {
-			System.out.println((char)by);
-		}
+//		while((by = fis.read()) != -1) {
+//			System.out.println((char)by);
+//		}
 		
 		// 数组的长度一般是1024或者1024的整数倍
 		byte[] bys = new byte[1024];
