@@ -6,7 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/*
+/**
  * 需求：把e:\\a.mp4复制到当前项目目录下的b.mp4中
  *
  * 字节流四种方式复制文件：
