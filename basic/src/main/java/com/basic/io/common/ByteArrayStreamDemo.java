@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-/*
+/**
  * 内存操作流：用于处理临时存储信息的，程序结束，数据就从内存中消失。
  * 字节数组：
  *         ByteArrayInputStream
