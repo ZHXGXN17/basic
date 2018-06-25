@@ -1,11 +1,14 @@
 package com.cn.api;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -16,7 +19,7 @@ public class Client {
 	public Client() {
 		try {
 			System.out.println("正在连接服务端......");
-			socket = new Socket("127.0.0.1", 8088);
+			socket = new Socket("127.0.0.1", 8000);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -97,6 +100,7 @@ public class Client {
 			}else if(builder.indexOf("UTF-8") != -1) {
 				bys = builder.toString().getBytes("UTF-8");
 			}
+			System.out.println(new String(bys));
 			return bys;
 		}catch(IOException e) {
 			e.printStackTrace();
@@ -112,10 +116,47 @@ public class Client {
 		return null;
 	}
 	
+	
+	// gbk读
+	public static byte[] readGbk(String fileName) {
+		InputStreamReader isr = null;
+		try {
+			isr = new InputStreamReader(new FileInputStream(fileName), "GBK");
+			StringBuilder builder = new StringBuilder();
+			char[] chs = new char[1024];
+			int len = 0;
+			while((len = isr.read(chs)) != -1) {
+				builder.append(new String(chs, 0, len));
+			}
+			
+			String str = String.format("%08d", builder.toString().getBytes().length);
+			builder.insert(0, str);
+			
+			byte[] bys = builder.toString().getBytes();
+			System.out.println(new String(bys));
+			return bys;
+		}catch(IOException e) {
+			e.printStackTrace();
+		}finally {
+			if(isr != null) {
+				try {
+					isr.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	
 	public static void main(String[] args) {
 		try {
 			Client client = new Client();
 			client.start(read("sms_out.xml"));
+//			client.start(readGbk("sms_out.xml"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
