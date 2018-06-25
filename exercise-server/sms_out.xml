@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sms>
+  <head>
+    <transcode>1013</transcode>
+    <seqno>10000001</seqno>
+  </head>
+  <msg>
+     <channel>1234</channel>
+     <mobile>13712345678</mobile>
+     <content>测试</content>
+  </msg>
+</sms>

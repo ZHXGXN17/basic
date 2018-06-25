@@ -1,17 +1,13 @@
 package com.cn.api;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Map;
 
 public class Client {
 	
@@ -19,6 +15,7 @@ public class Client {
 	
 	public Client() {
 		try {
+			System.out.println("正在连接服务端......");
 			socket = new Socket("127.0.0.1", 8088);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -28,138 +25,100 @@ public class Client {
 	}
 	
 	
-	public void start(){
+	/**
+	 * socket连接服务端
+	 * @param bys
+	 */
+	public void start(byte[] bys){
+		OutputStream out = null;
+		InputStream is = null;
+		BufferedReader br = null;
 		try {
-			OutputStream out = socket.getOutputStream();
-			OutputStreamWriter osw = new OutputStreamWriter(out,"UTF-8");
-			PrintWriter pw = new PrintWriter(osw,true);
-//			String message = null;
-			StringBuilder sb = new StringBuilder("00000000<?xml version=\"1.0\" encoding=\"GBK\"?>");
-	        sb.append("<sms>\r\n" + 
-	        		"  <head>\r\n" + 
-	        		"    <transcode>1013</transcode>\r\n" + 
-	        		"    <seqno>10000001</seqno>\r\n" + 
-	        		"  </head>\r\n" + 
-	        		"  <msg>\r\n" + 
-	        		"     <channel> 1234</channel>\r\n" + 
-	        		"     <mobile> 13712345678 </mobile>\r\n" + 
-	        		"     <content> 测试 </content>\r\n" + 
-	        		"  </msg>\r\n" + 
-	        		"</sms>\r\n" + 
-	        		"");
-	        sb.toString().getBytes();
-	        
-	        String message = sb.toString();
-	        byte[] bys = message.getBytes("gbk");
-			while(true){
-				pw.println(bys);
+			out = socket.getOutputStream();
+			out.write(bys);
+			out.flush();
+			// 关闭输出流
+			socket.shutdownOutput();
+			
+			// 获取输入流
+			is = socket.getInputStream();
+			br = new BufferedReader(new InputStreamReader(is));
+			String info = null;
+			while((info=br.readLine()) != null){
+				System.out.println("服务器返回消息:" + info);
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(out != null) {
+					out.close();
+				}
+				if(is != null) {
+					is.close();
+				}
+				if(br != null) {
+					br.close();
+				}
+			}catch(IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+	
+	
+	/**
+	 * 读取xml报文文件，分为GBK、UTF-8两种格式
+	 * @param fileName
+	 * @return
+	 */
+	public static byte[] read(String fileName) {
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(fileName));
+			StringBuilder builder = new StringBuilder();
+			String line = null;
+			while((line = br.readLine()) != null) {
+				builder.append(line);
+			}
+			
+			// 报文长度,不够8位，左补0
+			String str = null;
+			if(builder.indexOf("GBK") != -1) {
+				str = String.format("%08d", builder.toString().getBytes("GBK").length);
+			}else if(builder.indexOf("UTF-8") != -1) {
+				str = String.format("%08d", builder.toString().getBytes("UTF-8").length);
+			}
+			builder.insert(0, str);
+			
+			byte[] bys = null;
+			if(builder.indexOf("GBK") != -1) {
+				bys = builder.toString().getBytes("GBK");
+			}else if(builder.indexOf("UTF-8") != -1) {
+				bys = builder.toString().getBytes("UTF-8");
+			}
+			return bys;
+		}catch(IOException e) {
+			e.printStackTrace();
+		}finally {
+			if(br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
+	}
+	
+	public static void main(String[] args) {
+		try {
+			Client client = new Client();
+			client.start(read("sms_out.xml"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void main(String[] args) throws Exception{
-		String str = "00000000<?xml version=\"1.0\" encoding=\"GBK\"?>\r\n" + 
-				"<sms>\r\n" + 
-				"  <head>\r\n" + 
-				"    <transcode>1013</transcode>\r\n" + 
-				"    <seqno>10000001</seqno>\r\n" + 
-				"  </head>\r\n" + 
-				"  <msg>\r\n" + 
-				"     <channel> 1234</channel>\r\n" + 
-				"     <mobile> 13712345678 </mobile>\r\n" + 
-				"     <content> 测试 </content>\r\n" + 
-				"  </msg>\r\n" + 
-				"</ sms >\r\n" + 
-				"";
-		Socket client = new Socket("127.0.0.1", 8088);
-        OutputStream out = client.getOutputStream();
-        
-        byte[] bys = str.getBytes("gbk");
-        out.write(bys.length);
-        out.write(bys);
-        out.close();
-        client.close();
-		
-//		try {
-//			Client client = new Client();
-//			client.start();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-	}
-	
-	
-	private static byte[] formatMessage(Map<String, Object> map) throws Exception {
-        StringBuilder sb = new StringBuilder("<?xml version=\"1.0\" encoding=\"GBK\"?>");
-        sb.append("<sms>\r\n" + 
-        		"  <head>\r\n" + 
-        		"    <transcode>1013</transcode>\r\n" + 
-        		"    <seqno>10000001</seqno>\r\n" + 
-        		"  </head>\r\n" + 
-        		"  <msg>\r\n" + 
-        		"     <channel> 1234</channel>\r\n" + 
-        		"     <mobile> 13712345678 </mobile>\r\n" + 
-        		"     <content> 测试 </content>\r\n" + 
-        		"  </msg>\r\n" + 
-        		"</sms>\r\n" + 
-        		"");
-        sb.toString().getBytes();
-        
-        String message = sb.toString();
-        byte[] bys = message.getBytes("gbk");
-        
-//        String message = sb.toString();
-        return bys;
-    }
-	
-	
-	
-	
-	
-	public static String sendMessage(String ip, int port, byte[] b, byte[] ws, int readTimeOut, int connTimeout, String charsetName) {
-		Socket socket = null;
-		// 输出流
-		DataOutputStream dos = null;
-		// 输入流
-		InputStream dis = null;
-		try {
-			socket = new Socket();
-			socket.connect(new InetSocketAddress(ip, port), connTimeout);
-			socket.setSoTimeout(readTimeOut);
-			dos = new DataOutputStream(socket.getOutputStream());
-			
-			dos.write(b);
-			dos.write(ws);
-			dos.flush();
-			dis = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-			
-			byte[] bys = new byte[1024];
-			int len = 0;
-			String resMsg = null;
-			while((len = dis.read(bys)) != -1) {
-				resMsg = new String(bys, 0, len, charsetName);
-			}
-			
-			return resMsg;
-		}catch(Exception e) {
-			try {
-				if(dis != null) {
-					dis.close();
-				}
-				if(dos != null) {
-					dos.close();
-				}
-				if(socket != null) {
-					socket.close();
-				}
-			}catch(Exception e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 }

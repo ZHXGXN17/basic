@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sms>
+  <head>
+    <transcode>1013</transcode>
+    <seqno>10000001</seqno>
+    <returncode>0000</returncode>
+    <returninfo>成功 </returninfo>
+  </head>
+</sms>
+
