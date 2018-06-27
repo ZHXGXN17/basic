@@ -1,16 +1,26 @@
 package com.cn.api;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.dom4j.Attribute;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
 
 public class Client {
 	
@@ -31,8 +41,9 @@ public class Client {
 	/**
 	 * socket连接服务端
 	 * @param bys
+	 * @throws Exception 
 	 */
-	public void start(byte[] bys){
+	public void start(byte[] bys) throws Exception{
 		OutputStream out = null;
 		InputStream is = null;
 		BufferedReader br = null;
@@ -41,15 +52,21 @@ public class Client {
 			out.write(bys);
 			out.flush();
 			// 关闭输出流
-			socket.shutdownOutput();
+//			socket.shutdownOutput();
 			
 			// 获取输入流
 			is = socket.getInputStream();
-			br = new BufferedReader(new InputStreamReader(is));
-			String info = null;
-			while((info=br.readLine()) != null){
-				System.out.println("服务器返回消息:" + info);
+			byte[] bytes = new byte[309];
+			int i = 0;
+			while((i = is.read(bys)) != -1) {
+				System.out.println(new String(bys, 0, i));
 			}
+			
+//			br = new BufferedReader(new InputStreamReader(is));
+//			String info = null;
+//			while((info=br.readLine()) != null){
+//				System.out.println(info);
+//			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally {

@@ -15,7 +15,7 @@ public class Server {
 	
 	public Server() {
 		try {
-			server = new ServerSocket(8088);
+			server = new ServerSocket(8000);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
