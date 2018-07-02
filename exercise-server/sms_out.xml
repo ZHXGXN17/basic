@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="GBK"?>
 <sms>
   <head>
     <transcode>1013</transcode>
@@ -7,6 +7,6 @@
   <msg>
      <channel>1234</channel>
      <mobile>13712345678</mobile>
-     <content>æµ‹è¯•</content>
+     <content>²âÊÔ</content>
   </msg>
 </sms>

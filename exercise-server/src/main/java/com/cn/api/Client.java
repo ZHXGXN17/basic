@@ -1,7 +1,6 @@
 package com.cn.api;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,16 +9,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.dom4j.Attribute;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 
 
 public class Client {
@@ -59,6 +48,7 @@ public class Client {
 			byte[] bytes = new byte[309];
 			int i = 0;
 			while((i = is.read(bys)) != -1) {
+				System.out.println("返回报文==================");
 				System.out.println(new String(bys, 0, i));
 			}
 			
@@ -94,13 +84,20 @@ public class Client {
 	 */
 	public static byte[] read(String fileName) {
 		BufferedReader br = null;
+		FileInputStream fis = null;
+		InputStreamReader isr = null;
 		try {
-			br = new BufferedReader(new FileReader(fileName));
+			isr = new InputStreamReader(new FileInputStream(fileName), "GBK");
+//			br = new BufferedReader(new FileReader(fileName));
 			StringBuilder builder = new StringBuilder();
 			String line = null;
-			while((line = br.readLine()) != null) {
-				builder.append(line);
+			char[] chs = new char[1024];
+			int len = 0;
+			while((len = isr.read(chs)) != -1) {
+				builder.append(new String(chs, 0, len));
 			}
+			
+			System.out.println("报文:" + builder.toString());
 			
 			// 报文长度,不够8位，左补0
 			String str = null;
@@ -117,7 +114,7 @@ public class Client {
 			}else if(builder.indexOf("UTF-8") != -1) {
 				bys = builder.toString().getBytes("UTF-8");
 			}
-			System.out.println(new String(bys));
+//			System.out.println(new String(bys));
 			return bys;
 		}catch(IOException e) {
 			e.printStackTrace();
