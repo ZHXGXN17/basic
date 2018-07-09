@@ -18,7 +18,7 @@ public class Client {
 	public Client() {
 		try {
 			System.out.println("正在连接服务端......");
-			socket = new Socket("127.0.0.1", 8000);
+			socket = new Socket("127.0.0.1", 8002);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -45,17 +45,17 @@ public class Client {
 			
 			// 获取输入流
 			is = socket.getInputStream();
-			byte[] bytes = new byte[309];
+			byte[] bytes = new byte[1024];
 			int i = 0;
-			while((i = is.read(bys)) != -1) {
+			while((i = is.read(bytes)) != -1) {
 				System.out.println("返回报文==================");
-				System.out.println(new String(bys, 0, i));
+				System.out.println(new String(bytes, 0, i, "GBK"));
 			}
 			
 //			br = new BufferedReader(new InputStreamReader(is));
 //			String info = null;
 //			while((info=br.readLine()) != null){
-//				System.out.println(info);
+//				System.out.println("返回报文" + info);
 //			}
 		} catch (IOException e) {
 			e.printStackTrace();
