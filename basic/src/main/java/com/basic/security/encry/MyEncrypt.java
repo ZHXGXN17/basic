@@ -1,4 +1,4 @@
-package com.basic.encry;
+package com.basic.security.encry;
 
 /**
  * 凯撒密码加密、解密.

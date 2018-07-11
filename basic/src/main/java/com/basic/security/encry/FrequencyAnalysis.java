@@ -1,4 +1,4 @@
-package com.basic.encry;
+package com.basic.security.encry;
 
 import java.io.File;
 import java.io.FileReader;
