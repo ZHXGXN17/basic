@@ -1,22 +1,15 @@
 package com.basic.oop.exception.custom;
 
 import javax.naming.Context;
-import javax.swing.text.View;
 
-import org.activiti.bpmn.model.Activity;
-import org.activiti.bpmn.model.FlowElement;
+import android.app.Activity;
+import android.view.View;
 
 public class MainActivity extends Activity{
 	
 	private HMApi hmApi;
 	
-	@Override
-	public FlowElement clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-    public void method1(View v) {
+	public void method1(View v) {
         Context context = null;
         try {
             hmApi.method1();
