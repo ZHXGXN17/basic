@@ -2,7 +2,6 @@ package com.basic.coll.demo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * 问题：有一个集合，想判断集合里面有没有“world”这个元素，如果有，就添加一个”javaee“元素，写代码实现

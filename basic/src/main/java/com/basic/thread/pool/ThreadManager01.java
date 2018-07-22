@@ -2,7 +2,6 @@ package com.basic.thread.pool;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class ThreadManager01 {
 	

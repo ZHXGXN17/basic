@@ -1,7 +1,5 @@
 package com.basic.thread.pro_con;
 
-import java.io.Serializable;
-
 public class SetThread01 implements Runnable{
 	
 	private Student01 s;
