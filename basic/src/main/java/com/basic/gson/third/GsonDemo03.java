@@ -16,10 +16,10 @@ import com.google.gson.annotations.Expose;
 public class GsonDemo03 {
 	
 	public static void main(String[] args) {
-//		read();
+		read();
 //		sineUtilTest(1);
 //		modifier();
-		strategory();
+//		strategory();
 	}
 	
 	/**
